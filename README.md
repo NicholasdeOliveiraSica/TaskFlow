@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ⚡ TaskFlow — Modern Next.js 16 & Supabase To-Do List
 
-## Getting Started
+A fullstack, high-performance task management web application engineered with **Next.js 16 (App Router)**, **Supabase Authentication & Database (with Row Level Security)**, and **Tailwind CSS**. Designed with premium dark-mode aesthetics, fluid micro-interactions, and real-time state synchronization.
 
-First, run the development server:
+---
 
+## ✨ Features
+
+- 🎨 **Modern Dark-Mode UI / UX System**
+  - High-contrast glassmorphism visual hierarchy.
+  - Priority badges (*Urgente*, *Alta*, *Baixa*) with dynamic left-border accents.
+  - Category tagging (*Trabalho*, *Pessoal*, *Estudos*, *Foco*) and due-date tracking.
+
+- 🤹 **Interactive 3D Drag & Drop Reordering**
+  - Drag handles with 60FPS fluid mouse tracking.
+  - Perspective 3D jaw-opening tilt feedback on adjacent target cards.
+  - Zero-layout-shift positioning engine and instant optimistic state updates.
+
+- 📊 **Flexible Pagination & Infinite Scroll**
+  - Top pagination controls with configurable page sizes (10, 30, 50, All).
+  - Infinite scroll engine with dynamic batch loading (20 items/batch).
+  - Head count query optimizations for instant loading feedback.
+
+- 🔐 **Robust Authentication & Security**
+  - Supabase SSR Authentication (Email/Password registration & login).
+  - Next.js Proxy/Middleware session management.
+  - Row Level Security (RLS) policies guaranteeing total user data isolation.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 16 (App Router & React 19)
+- **Database & Auth**: Supabase (PostgreSQL, RLS, SSR Client)
+- **Styling**: Tailwind CSS & Lucide Icons
+- **Language**: TypeScript
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone & Install
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/NicholasdeOliveiraSica/TaskFlow.git
+cd TaskFlow
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Environment Variables
+Create a `.env.local` file in the root directory:
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Database Setup (Supabase SQL)
+Run the SQL schema provided in `supabase/schema.sql` inside your Supabase SQL Editor to initialize the `todos` table and RLS policies.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Run Development Server
+```bash
+npm run dev
+```
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
