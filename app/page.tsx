@@ -4,6 +4,7 @@ import { Navbar } from '@/components/Navbar'
 import { TodoList } from '@/components/TodoList'
 import { Todo } from '@/types/todo'
 
+export const runtime = 'edge'
 export const revalidate = 0 // Dynamic SSR page
 
 export default async function DashboardPage() {
