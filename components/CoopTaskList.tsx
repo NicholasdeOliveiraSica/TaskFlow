@@ -422,7 +422,7 @@ export function CoopTaskList({ group, userId }: CoopTaskListProps) {
         pendingCount={pendingCount}
       />
 
-      {filteredCount > 0 && (
+      {filteredCount > 10 && (
         <TodoPagination
           currentPage={currentPage}
           pageSize={pageSize}

@@ -536,7 +536,7 @@ export function TodoList({
           />
 
           {/* Pagination Controls Bar (TOPO) */}
-          {filteredCount > 0 && (
+          {filteredCount > 10 && (
             <TodoPagination
               currentPage={currentPage}
               pageSize={pageSize}
