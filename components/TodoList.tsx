@@ -4,12 +4,14 @@ import { useState, useEffect, useCallback, useTransition, useOptimistic, useRef 
 
 import { createClient } from '@/lib/supabase/client'
 import { Todo, FilterStatus } from '@/types/todo'
+import { DashboardMode } from '@/types/coop'
 import { TodoItem } from '@/components/TodoItem'
 import { TodoForm } from '@/components/TodoForm'
-import { TodoFilters } from '@/components/TodoFilters'
+import { TaskFilters } from '@/components/TaskFilters'
+import { DashboardModeSelector } from '@/components/DashboardModeSelector'
+import { CoopView } from '@/components/CoopView'
 import { TodoPagination, PageSizeMode } from '@/components/TodoPagination'
 import { useToast } from '@/context/ToastContext'
-
 
 import { ClipboardList, CheckCircle2, Loader2 } from 'lucide-react'
 
@@ -43,6 +45,7 @@ export function TodoList({
   initialCompletedCount,
   userId,
 }: TodoListProps) {
+  const [mode, setMode] = useState<DashboardMode>('personal')
   const [todos, setTodos] = useState<Todo[]>(initialTodos)
   const [filter, setFilter] = useState<FilterStatus>('all')
   const [pageSize, setPageSize] = useState<PageSizeMode>(10)
@@ -511,129 +514,137 @@ export function TodoList({
 
   return (
     <div className="w-full">
-      {/* Todo Form Input */}
-      <TodoForm onAddTodo={handleAddTodo} />
+      {/* Dashboard Mode Switcher */}
+      <DashboardModeSelector mode={mode} onModeChange={setMode} />
 
-      {/* Todo Filters & Counters */}
-      <TodoFilters
-        currentFilter={filter}
-        onFilterChange={handleFilterChange}
-        totalCount={totalCount}
-        completedCount={completedCount}
-        pendingCount={pendingCount}
-      />
+      {/* Cooperative Tasks View */}
+      {mode === 'coop' && <CoopView userId={userId} />}
 
-      {/* Pagination Controls Bar (TOPO) */}
-      {filteredCount > 0 && (
-        <TodoPagination
-          currentPage={currentPage}
-          pageSize={pageSize}
-          totalItems={filteredCount}
-          displayedItemsCount={optimisticTodos.length}
-          onPageChange={handlePageChange}
-          onPageSizeChange={handlePageSizeChange}
-        />
-      )}
+      {/* Personal Tasks View */}
+      {mode === 'personal' && (
+        <>
+          {/* Todo Form Input */}
+          <TodoForm onAddTodo={handleAddTodo} />
 
-      {/* Loading Skeletons */}
-      {loading ? (
-        <div className="space-y-3">
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="h-20 rounded-xl bg-slate-900/60 border border-slate-800/80 animate-pulse p-4 flex items-center justify-between"
-            >
-              <div className="flex items-center gap-3 w-full">
-                <div className="h-7 w-7 rounded-full bg-slate-800 shrink-0" />
-                <div className="space-y-2 w-2/3">
-                  <div className="h-4 bg-slate-800 rounded w-3/4" />
-                  <div className="h-3 bg-slate-800/60 rounded w-1/2" />
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : optimisticTodos.length === 0 ? (
-        /* Empty State View */
-        <div className="glass-card rounded-2xl p-10 sm:p-12 text-center flex flex-col items-center justify-center border border-slate-800/80 my-4">
-          <div className="h-16 w-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-4 text-indigo-400">
-            <ClipboardList className="w-8 h-8" />
-          </div>
-          <h3 className="text-lg font-bold text-slate-200">
-            {filter === 'all'
-              ? 'Nenhuma tarefa encontrada'
-              : filter === 'pending'
-                ? 'Nenhuma tarefa pendente'
-                : 'Nenhuma tarefa concluída'}
-          </h3>
-          <p className="text-sm text-slate-400 mt-1 max-w-sm">
-            {filter === 'all'
-              ? 'Adicione uma nova tarefa acima para começar a organizar seu dia!'
-              : filter === 'pending'
-                ? 'Parabéns! Todas as suas tarefas foram concluídas.'
-                : 'Você ainda não concluiu nenhuma tarefa nesta lista.'}
-          </p>
-        </div>
-      ) : (
-        /* Todo Cards List with Reordering */
-        <div className="space-y-3">
-          {optimisticTodos.map((todo, idx) => {
-            let tiltMode: 'tilt-down' | 'tilt-up' | null = null
-            if (draggedIndex !== null && dropGapIndex !== null) {
-              if (idx === dropGapIndex) {
-                tiltMode = 'tilt-down'
-              } else if (idx === dropGapIndex + 1) {
-                tiltMode = 'tilt-up'
-              }
-            }
+          {/* Task Filters & Counters */}
+          <TaskFilters
+            currentFilter={filter}
+            onFilterChange={handleFilterChange}
+            totalCount={totalCount}
+            completedCount={completedCount}
+            pendingCount={pendingCount}
+          />
 
-            return (
-              <TodoItem
-                key={todo.id}
-                todo={todo}
-                index={idx}
-                onToggle={handleToggleTodo}
-                onUpdate={handleUpdateTodo}
-                onDelete={handleDeleteTodo}
-                onDragStart={handleDragStart}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                onDragEnd={handleDragEnd}
-                isDragging={draggedIndex === idx}
-                tiltMode={tiltMode}
-              />
-            )
-          })}
+          {/* Pagination Controls Bar (TOPO) */}
+          {filteredCount > 0 && (
+            <TodoPagination
+              currentPage={currentPage}
+              pageSize={pageSize}
+              totalItems={filteredCount}
+              displayedItemsCount={optimisticTodos.length}
+              onPageChange={handlePageChange}
+              onPageSizeChange={handlePageSizeChange}
+            />
+          )}
 
-
-
-
-          {/* Infinite Scroll Sentinel & Loader */}
-          {pageSize === 'all' && (
-            <div ref={sentinelRef} className="pt-2 text-center">
-              {loadingMore ? (
-                <div className="py-4 flex items-center justify-center gap-2 text-xs text-indigo-400 font-medium">
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Carregando mais 20 tarefas...</span>
-                </div>
-              ) : hasMore ? (
-                <button
-                  type="button"
-                  onClick={fetchNextBatch}
-                  className="py-2.5 px-5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition cursor-pointer"
+          {/* Loading Skeletons */}
+          {loading ? (
+            <div className="space-y-3">
+              {[1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  className="h-20 rounded-xl bg-slate-900/60 border border-slate-800/80 animate-pulse p-4 flex items-center justify-between"
                 >
-                  Carregar mais 20 tarefas
-                </button>
-              ) : (
-                <div className="py-4 flex items-center justify-center gap-1.5 text-xs text-slate-500 font-medium">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>Todas as {filteredCount} tarefas foram carregadas.</span>
+                  <div className="flex items-center gap-3 w-full">
+                    <div className="h-7 w-7 rounded-full bg-slate-800 shrink-0" />
+                    <div className="space-y-2 w-2/3">
+                      <div className="h-4 bg-slate-800 rounded w-3/4" />
+                      <div className="h-3 bg-slate-800/60 rounded w-1/2" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : optimisticTodos.length === 0 ? (
+            /* Empty State View */
+            <div className="glass-card rounded-2xl p-10 sm:p-12 text-center flex flex-col items-center justify-center border border-slate-800/80 my-4">
+              <div className="h-16 w-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-4 text-indigo-400">
+                <ClipboardList className="w-8 h-8" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-200">
+                {filter === 'all'
+                  ? 'Nenhuma tarefa encontrada'
+                  : filter === 'pending'
+                    ? 'Nenhuma tarefa pendente'
+                    : 'Nenhuma tarefa concluída'}
+              </h3>
+              <p className="text-sm text-slate-400 mt-1 max-w-sm">
+                {filter === 'all'
+                  ? 'Adicione uma nova tarefa acima para começar a organizar seu dia!'
+                  : filter === 'pending'
+                    ? 'Parabéns! Todas as suas tarefas foram concluídas.'
+                    : 'Você ainda não concluiu nenhuma tarefa nesta lista.'}
+              </p>
+            </div>
+          ) : (
+            /* Todo Cards List with Reordering */
+            <div className="space-y-3">
+              {optimisticTodos.map((todo, idx) => {
+                let tiltMode: 'tilt-down' | 'tilt-up' | null = null
+                if (draggedIndex !== null && dropGapIndex !== null) {
+                  if (idx === dropGapIndex) {
+                    tiltMode = 'tilt-down'
+                  } else if (idx === dropGapIndex + 1) {
+                    tiltMode = 'tilt-up'
+                  }
+                }
+
+                return (
+                  <TodoItem
+                    key={todo.id}
+                    todo={todo}
+                    index={idx}
+                    onToggle={handleToggleTodo}
+                    onUpdate={handleUpdateTodo}
+                    onDelete={handleDeleteTodo}
+                    onDragStart={handleDragStart}
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    onDragEnd={handleDragEnd}
+                    isDragging={draggedIndex === idx}
+                    tiltMode={tiltMode}
+                  />
+                )
+              })}
+
+              {/* Infinite Scroll Sentinel & Loader */}
+              {pageSize === 'all' && (
+                <div ref={sentinelRef} className="pt-2 text-center">
+                  {loadingMore ? (
+                    <div className="py-4 flex items-center justify-center gap-2 text-xs text-indigo-400 font-medium">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Carregando mais 20 tarefas...</span>
+                    </div>
+                  ) : hasMore ? (
+                    <button
+                      type="button"
+                      onClick={fetchNextBatch}
+                      className="py-2.5 px-5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition cursor-pointer"
+                    >
+                      Carregar mais 20 tarefas
+                    </button>
+                  ) : (
+                    <div className="py-4 flex items-center justify-center gap-1.5 text-xs text-slate-500 font-medium">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                      <span>Todas as {filteredCount} tarefas foram carregadas.</span>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
           )}
-        </div>
+        </>
       )}
     </div>
   )
