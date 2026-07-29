@@ -55,7 +55,7 @@ function LoginContent() {
   const getRedirectUrl = () => {
     return typeof window !== 'undefined'
       ? `${window.location.origin}/auth/callback`
-      : `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/auth/callback`
+      : `${process.env.NEXT_PUBLIC_SITE_URL || 'https://taskflow.nexium.studio'}/auth/callback`
   }
 
   // Handle Standard Email & Password Login

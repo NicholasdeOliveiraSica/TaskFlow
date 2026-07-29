@@ -8,9 +8,12 @@ export async function updateSession(request: NextRequest) {
     request,
   })
 
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder'
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         getAll() {
@@ -31,17 +34,25 @@ export async function updateSession(request: NextRequest) {
             })
           )
         },
-
       },
     }
   )
+
+  const path = request.nextUrl.pathname
+  const code = request.nextUrl.searchParams.get('code')
+
+  // Automatic recovery: If user arrives with ?code= on any non-callback route, redirect to /auth/callback?code=...
+  if (code && !path.startsWith('/auth/callback')) {
+    const callbackUrl = request.nextUrl.clone()
+    callbackUrl.pathname = '/auth/callback'
+    return NextResponse.redirect(callbackUrl)
+  }
 
   // Refresh auth session
   const {
     data: { user },
   } = await supabase.auth.getUser()
 
-  const path = request.nextUrl.pathname
   const isPublicRoute = path === '/login' || path === '/register' || path.startsWith('/auth/')
 
   // Protected routes check: redirect to /login if unauthenticated on protected routes
