@@ -16,9 +16,9 @@
     "@supabase/ssr": "^0.12.3",
     "@supabase/supabase-js": "^2.110.9",
     "lucide-react": "^1.27.0",
-    "next": "16.2.12",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "next": "^15.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.13.16",
@@ -27,10 +27,10 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.12",
+    "eslint-config-next": "^15.2.0",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vercel": "^58.1.0",
+    "vercel": "^45.0.0",
     "wrangler": "^3.114.0"
   }
 }
