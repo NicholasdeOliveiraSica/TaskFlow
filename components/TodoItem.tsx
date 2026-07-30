@@ -44,7 +44,7 @@ export function TodoItem({
   const [editTitle, setEditTitle] = useState(todo.title)
   const [editDescription, setEditDescription] = useState(todo.description || '')
   const [editPriority, setEditPriority] = useState<string>(todo.priority || 'medium')
-  const [editCategory, setEditCategory] = useState<string>(todo.category || 'Pessoal')
+  const [editCategory, setEditCategory] = useState<string>(todo.category || 'Personal')
   const [editDueDate, setEditDueDate] = useState<string>(todo.due_date || '')
   const [isSaving, setIsSaving] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
@@ -52,24 +52,24 @@ export function TodoItem({
 
   const isCompleted = Boolean(todo.is_complete)
   const priority = (todo.priority || 'medium').toLowerCase()
-  const category = todo.category || 'Pessoal'
+  const category = todo.category || 'Personal'
 
   // Priority Styles (4px Left Border & Badges)
   const priorityMap: Record<string, { border: string; badge: string; label: string }> = {
     high: {
       border: 'border-l-rose-500',
       badge: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
-      label: 'Urgente',
+      label: 'Urgent',
     },
     medium: {
       border: 'border-l-amber-400',
       badge: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-      label: 'Alta',
+      label: 'Medium',
     },
     low: {
       border: 'border-l-emerald-400',
       badge: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-      label: 'Baixa',
+      label: 'Low',
     },
   }
 
@@ -77,9 +77,13 @@ export function TodoItem({
 
   // Category Badge Styles
   const categoryMap: Record<string, string> = {
+    Work: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30',
     Trabalho: 'bg-indigo-500/15 text-indigo-300 border-indigo-500/30',
+    Personal: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
     Pessoal: 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
+    Studies: 'bg-violet-500/15 text-violet-300 border-violet-500/30',
     Estudos: 'bg-violet-500/15 text-violet-300 border-violet-500/30',
+    Focus: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
     Foco: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
   }
   const currentCategoryStyle = categoryMap[category] || 'bg-slate-800 text-slate-300 border-slate-700'
@@ -119,7 +123,7 @@ export function TodoItem({
   const formatDate = (dateStr: string) => {
     if (!dateStr) return null
     const [year, month, day] = dateStr.split('-')
-    if (year && month && day) return `${day}/${month}/${year}`
+    if (year && month && day) return `${month}/${day}/${year}`
     return dateStr
   }
 
@@ -157,7 +161,7 @@ export function TodoItem({
           <form onSubmit={handleSaveEdit} className="space-y-3">
             <div>
               <label htmlFor={`edit-title-${todo.id}`} className="sr-only">
-                Editar Título
+                Edit Title
               </label>
               <input
                 id={`edit-title-${todo.id}`}
@@ -170,7 +174,7 @@ export function TodoItem({
             </div>
             <div>
               <label htmlFor={`edit-desc-${todo.id}`} className="sr-only">
-                Editar Descrição
+                Edit Description
               </label>
               <textarea
                 id={`edit-desc-${todo.id}`}
@@ -184,7 +188,7 @@ export function TodoItem({
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               <div>
                 <label htmlFor={`edit-priority-${todo.id}`} className="block text-[11px] text-slate-400 mb-1 font-medium">
-                  Prioridade
+                  Priority
                 </label>
                 <select
                   id={`edit-priority-${todo.id}`}
@@ -192,15 +196,15 @@ export function TodoItem({
                   onChange={(e) => setEditPriority(e.target.value)}
                   className="w-full px-2.5 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-200 text-xs"
                 >
-                  <option value="low">Baixa</option>
-                  <option value="medium">Alta</option>
-                  <option value="high">Urgente</option>
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">Urgent</option>
                 </select>
               </div>
 
               <div>
                 <label htmlFor={`edit-category-${todo.id}`} className="block text-[11px] text-slate-400 mb-1 font-medium">
-                  Categoria
+                  Category
                 </label>
                 <select
                   id={`edit-category-${todo.id}`}
@@ -208,16 +212,16 @@ export function TodoItem({
                   onChange={(e) => setEditCategory(e.target.value)}
                   className="w-full px-2.5 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-slate-200 text-xs"
                 >
-                  <option value="Trabalho">Trabalho</option>
-                  <option value="Pessoal">Pessoal</option>
-                  <option value="Estudos">Estudos</option>
-                  <option value="Foco">Foco</option>
+                  <option value="Work">Work</option>
+                  <option value="Personal">Personal</option>
+                  <option value="Studies">Studies</option>
+                  <option value="Focus">Focus</option>
                 </select>
               </div>
 
               <div>
                 <label htmlFor={`edit-date-${todo.id}`} className="block text-[11px] text-slate-400 mb-1 font-medium">
-                  Vencimento
+                  Due Date
                 </label>
                 <input
                   id={`edit-date-${todo.id}`}
@@ -237,13 +241,13 @@ export function TodoItem({
                   setEditTitle(todo.title)
                   setEditDescription(todo.description || '')
                   setEditPriority(todo.priority || 'medium')
-                  setEditCategory(todo.category || 'Pessoal')
+                  setEditCategory(todo.category || 'Personal')
                   setEditDueDate(todo.due_date || '')
                 }}
                 className="min-h-[44px] min-w-[44px] px-3 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 text-xs flex items-center gap-1 cursor-pointer"
               >
                 <X className="w-3.5 h-3.5" />
-                <span>Cancelar</span>
+                <span>Cancel</span>
               </button>
               <button
                 type="submit"
@@ -251,7 +255,7 @@ export function TodoItem({
                 className="min-h-[44px] min-w-[44px] px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium flex items-center gap-1 cursor-pointer disabled:opacity-50"
               >
                 {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
-                <span>Salvar</span>
+                <span>Save</span>
               </button>
             </div>
           </form>
@@ -263,7 +267,7 @@ export function TodoItem({
               {/* Refined Futuristic Drag Handle Pill */}
               <div
                 className="mt-0.5 text-slate-500 group-hover/item:text-indigo-400 hover:text-cyan-300 transition-all duration-200 cursor-grab active:cursor-grabbing shrink-0 flex items-center p-1 rounded-lg bg-slate-900/80 border border-slate-800/80 hover:bg-indigo-500/15 hover:border-indigo-500/40 hover:shadow-md hover:shadow-indigo-500/20 active:scale-95"
-                title="Clique e arraste para reordenar"
+                title="Click and drag to reorder"
               >
                 <GripVertical className="w-4 h-4" />
               </div>
@@ -273,7 +277,7 @@ export function TodoItem({
                 type="button"
                 onClick={handleToggle}
                 disabled={isToggling}
-                aria-label={isCompleted ? 'Marcar como pendente' : 'Marcar como concluída'}
+                aria-label={isCompleted ? 'Mark as pending' : 'Mark as completed'}
                 className={`mt-0.5 min-h-[44px] min-w-[44px] h-7 w-7 rounded-full flex items-center justify-center border transition-all duration-200 shrink-0 cursor-pointer shadow-sm ${isCompleted
                   ? 'bg-emerald-500 border-emerald-400 text-slate-950 font-bold scale-105'
                   : 'border-slate-600 hover:border-indigo-400 hover:text-indigo-400 bg-slate-900/90 text-slate-500/40 hover:scale-105'
@@ -324,7 +328,7 @@ export function TodoItem({
                   {todo.due_date && (
                     <span className="px-2 py-0.5 rounded-md text-[10px] font-medium text-slate-400 bg-slate-800/80 border border-slate-700/60 flex items-center gap-1">
                       <Calendar className="w-3 h-3 text-indigo-400" />
-                      <span>Vence: {formatDate(todo.due_date)}</span>
+                      <span>Due: {formatDate(todo.due_date)}</span>
                     </span>
                   )}
                 </div>
@@ -336,8 +340,8 @@ export function TodoItem({
               <button
                 type="button"
                 onClick={() => setIsEditing(true)}
-                aria-label="Editar tarefa"
-                title="Editar tarefa"
+                aria-label="Edit task"
+                title="Edit task"
                 className="min-h-[44px] min-w-[44px] p-2 rounded-lg text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/15 transition cursor-pointer flex items-center justify-center"
               >
                 <Edit2 className="w-4 h-4" />
@@ -346,8 +350,8 @@ export function TodoItem({
                 type="button"
                 onClick={handleDelete}
                 disabled={isDeleting}
-                aria-label="Excluir tarefa"
-                title="Excluir tarefa"
+                aria-label="Delete task"
+                title="Delete task"
                 className="min-h-[44px] min-w-[44px] p-2 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-rose-500/15 transition cursor-pointer flex items-center justify-center disabled:opacity-50"
               >
                 {isDeleting ? (

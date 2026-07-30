@@ -113,7 +113,7 @@ export function CoopTaskList({ group, userId }: CoopTaskListProps) {
         const { data, count: countFiltered, error } = await query.range(from, to)
 
         if (error) {
-          showToast('Erro ao carregar tarefas do grupo.', 'error')
+          showToast('Error loading group tasks.', 'error')
         } else {
           if (data) {
             setTasks(data as CoopTask[])
@@ -154,7 +154,7 @@ export function CoopTaskList({ group, userId }: CoopTaskListProps) {
       const offset = tasks.length
       const { data, error } = await query.range(offset, offset + 19)
 
-      if (error) console.error('Erro ao carregar mais tarefas:', error.message)
+      if (error) console.error('Error loading more tasks:', error.message)
       else if (data && data.length > 0) {
         const newBatch = data as CoopTask[]
         setTasks((prev) => {
@@ -256,10 +256,10 @@ export function CoopTaskList({ group, userId }: CoopTaskListProps) {
 
     const { error } = await supabase.from('coop_tasks').upsert(upsert)
     if (error) {
-      showToast('Não foi possível salvar a nova ordem.', 'error')
+      showToast('Could not save new order.', 'error')
       await fetchTasks(currentPage, pageSize, filter)
     } else {
-      showToast('Ordem salva com sucesso!', 'success')
+      showToast('Order saved successfully!', 'success')
     }
   }
 
@@ -296,7 +296,7 @@ export function CoopTaskList({ group, userId }: CoopTaskListProps) {
       description,
       is_complete: false,
       priority: priority || 'medium',
-      category: category || 'Pessoal',
+      category: category || 'Personal',
       due_date: due_date || null,
       position: 0,
       created_at: null,
@@ -312,7 +312,7 @@ export function CoopTaskList({ group, userId }: CoopTaskListProps) {
         description,
         is_complete: false,
         priority: priority || 'medium',
-        category: category || 'Pessoal',
+        category: category || 'Personal',
         due_date: due_date || null,
         position: 0,
       }])
@@ -320,13 +320,13 @@ export function CoopTaskList({ group, userId }: CoopTaskListProps) {
       .single()
 
     if (error) {
-      showToast('Não foi possível criar a tarefa.', 'error')
+      showToast('Could not create task.', 'error')
       await fetchTasks(currentPage, pageSize, filter)
       return false
     }
 
     if (data) {
-      showToast('Tarefa criada com sucesso!', 'success')
+      showToast('Task created successfully!', 'success')
       setCurrentPage(1)
       await fetchTasks(1, pageSize, filter)
       return true
@@ -338,7 +338,7 @@ export function CoopTaskList({ group, userId }: CoopTaskListProps) {
     startTransition(() => setOptimisticTasks({ type: 'TOGGLE', payload: { id, is_complete } }))
     const { error } = await supabase.from('coop_tasks').update({ is_complete }).eq('id', id)
     if (error) {
-      showToast('Não foi possível atualizar a tarefa.', 'error')
+      showToast('Could not update task.', 'error')
       await fetchTasks(currentPage, pageSize, filter)
     } else {
       setTasks((prev) => prev.map((t) => t.id === id ? { ...t, is_complete } : t))
@@ -359,11 +359,11 @@ export function CoopTaskList({ group, userId }: CoopTaskListProps) {
     )
     const { error } = await supabase
       .from('coop_tasks')
-      .update({ title, description, priority: priority || 'medium', category: category || 'Pessoal', due_date: due_date || null })
+      .update({ title, description, priority: priority || 'medium', category: category || 'Personal', due_date: due_date || null })
       .eq('id', id)
 
     if (error) {
-      showToast('Não foi possível salvar as alterações.', 'error')
+      showToast('Could not save changes.', 'error')
       await fetchTasks(currentPage, pageSize, filter)
       return false
     }
@@ -381,7 +381,7 @@ export function CoopTaskList({ group, userId }: CoopTaskListProps) {
           : t
       )
     )
-    showToast('Tarefa atualizada!', 'success')
+    showToast('Task updated!', 'success')
     return true
   }
 
@@ -389,10 +389,10 @@ export function CoopTaskList({ group, userId }: CoopTaskListProps) {
     startTransition(() => setOptimisticTasks({ type: 'DELETE', payload: { id } }))
     const { error } = await supabase.from('coop_tasks').delete().eq('id', id)
     if (error) {
-      showToast('Não foi possível excluir a tarefa.', 'error')
+      showToast('Could not delete task.', 'error')
       await fetchTasks(currentPage, pageSize, filter)
     } else {
-      showToast('Tarefa excluída.', 'success')
+      showToast('Task deleted.', 'success')
       await fetchTasks(currentPage, pageSize, filter)
     }
   }
@@ -406,7 +406,7 @@ export function CoopTaskList({ group, userId }: CoopTaskListProps) {
         <div className="flex flex-col gap-0.5 min-w-0">
           <span className="text-base font-bold text-slate-100 truncate">{group.name}</span>
           <span className="inline-flex items-center gap-1.5">
-            <span className="text-xs text-slate-500">Código do grupo:</span>
+            <span className="text-xs text-slate-500">Group code:</span>
             <span className="font-mono text-xs font-bold text-indigo-400 tracking-widest">{group.code}</span>
           </span>
         </div>
@@ -453,10 +453,10 @@ export function CoopTaskList({ group, userId }: CoopTaskListProps) {
             <ClipboardList className="w-8 h-8" />
           </div>
           <h3 className="text-lg font-bold text-slate-200">
-            {filter === 'all' ? 'Nenhuma tarefa no grupo' : filter === 'pending' ? 'Nenhuma tarefa pendente' : 'Nenhuma tarefa concluída'}
+            {filter === 'all' ? 'No tasks in group' : filter === 'pending' ? 'No pending tasks' : 'No completed tasks'}
           </h3>
           <p className="text-sm text-slate-400 mt-1 max-w-sm">
-            {filter === 'all' ? 'Adicione a primeira tarefa do grupo acima!' : filter === 'pending' ? 'Todas as tarefas do grupo foram concluídas.' : 'Nenhuma tarefa concluída ainda.'}
+            {filter === 'all' ? 'Add the first group task above!' : filter === 'pending' ? 'All group tasks are completed.' : 'No completed tasks yet.'}
           </p>
         </div>
       ) : (
@@ -491,7 +491,7 @@ export function CoopTaskList({ group, userId }: CoopTaskListProps) {
               {loadingMore ? (
                 <div className="py-4 flex items-center justify-center gap-2 text-xs text-indigo-400 font-medium">
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Carregando mais tarefas...</span>
+                  <span>Loading more tasks...</span>
                 </div>
               ) : hasMore ? (
                 <button
@@ -499,12 +499,12 @@ export function CoopTaskList({ group, userId }: CoopTaskListProps) {
                   onClick={fetchNextBatch}
                   className="py-2.5 px-5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition cursor-pointer"
                 >
-                  Carregar mais
+                  Load more
                 </button>
               ) : (
                 <div className="py-4 flex items-center justify-center gap-1.5 text-xs text-slate-500 font-medium">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>Todas as {filteredCount} tarefas foram carregadas.</span>
+                  <span>All {filteredCount} tasks loaded.</span>
                 </div>
               )}
             </div>

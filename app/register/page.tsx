@@ -29,17 +29,17 @@ export default function RegisterPage() {
     setSuccessMsg(null)
 
     if (!email.trim() || !password || !confirmPassword) {
-      setErrorMsg('Por favor, preencha todos os campos.')
+      setErrorMsg('Please fill in all fields.')
       return
     }
 
     if (password !== confirmPassword) {
-      setErrorMsg('As senhas digitadas não conferem.')
+      setErrorMsg('Passwords do not match.')
       return
     }
 
     if (password.length < 6) {
-      setErrorMsg('A senha deve conter no mínimo 6 caracteres.')
+      setErrorMsg('Password must be at least 6 characters long.')
       return
     }
 
@@ -55,7 +55,7 @@ export default function RegisterPage() {
       })
 
       if (error) {
-        setErrorMsg(error.message || 'Erro ao criar conta. Tente novamente.')
+        setErrorMsg(error.message || 'Error creating account. Please try again.')
         setLoading(false)
         return
       }
@@ -64,14 +64,14 @@ export default function RegisterPage() {
         router.push('/')
         router.refresh()
       } else if (data?.user) {
-        setSuccessMsg('Conta criada! Verifique seu e-mail caso a confirmação esteja ativada.')
+        setSuccessMsg('Account created! Check your email if confirmation is enabled.')
         setLoading(false)
       } else {
         router.push('/')
         router.refresh()
       }
     } catch {
-      setErrorMsg('Ocorreu um erro ao processar sua solicitação. Tente novamente.')
+      setErrorMsg('An error occurred while processing your request. Please try again.')
       setLoading(false)
     }
   }
@@ -89,11 +89,11 @@ export default function RegisterPage() {
       })
 
       if (error) {
-        setErrorMsg(`Erro ao conectar com ${provider}. Tente novamente.`)
+        setErrorMsg(`Error connecting to ${provider}. Please try again.`)
         setSocialLoading(null)
       }
     } catch {
-      setErrorMsg(`Falha ao iniciar cadastro com ${provider}.`)
+      setErrorMsg(`Failed to initiate registration with ${provider}.`)
       setSocialLoading(null)
     }
   }
@@ -113,7 +113,7 @@ export default function RegisterPage() {
             TaskFlow
           </h1>
           <p className="text-xs text-slate-400 mt-0.5">
-            Crie sua conta para começar
+            Create your account to get started
           </p>
         </div>
 
@@ -136,7 +136,7 @@ export default function RegisterPage() {
         <form onSubmit={handleRegister} className="space-y-3">
           <div>
             <label htmlFor="reg-email" className="block text-xs font-medium text-slate-300 mb-1">
-              E-mail
+              Email
             </label>
             <input
               id="reg-email"
@@ -144,14 +144,14 @@ export default function RegisterPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="seu@email.com"
+              placeholder="your@email.com"
               className="w-full px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-800 text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 min-h-[40px]"
             />
           </div>
 
           <div>
             <label htmlFor="reg-password" className="block text-xs font-medium text-slate-300 mb-1">
-              Senha
+              Password
             </label>
             <input
               id="reg-password"
@@ -159,14 +159,14 @@ export default function RegisterPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Mínimo 6 caracteres"
+              placeholder="Minimum 6 characters"
               className="w-full px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-800 text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 min-h-[40px]"
             />
           </div>
 
           <div>
             <label htmlFor="confirm-password" className="block text-xs font-medium text-slate-300 mb-1">
-              Confirmar Senha
+              Confirm Password
             </label>
             <input
               id="confirm-password"
@@ -174,7 +174,7 @@ export default function RegisterPage() {
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Repita a senha"
+              placeholder="Repeat password"
               className="w-full px-3.5 py-2 rounded-xl bg-slate-950/80 border border-slate-800 text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 min-h-[40px]"
             />
           </div>
@@ -187,12 +187,12 @@ export default function RegisterPage() {
             {loading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Cadastrando...</span>
+                <span>Signing up...</span>
               </>
             ) : (
               <>
                 <UserPlus className="w-4 h-4" />
-                <span>Criar Conta</span>
+                <span>Create Account</span>
               </>
             )}
           </button>
@@ -205,7 +205,7 @@ export default function RegisterPage() {
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-slate-900 px-3 text-slate-500 font-medium tracking-wider">
-              ou continue com
+              or continue with
             </span>
           </div>
         </div>
@@ -241,7 +241,7 @@ export default function RegisterPage() {
                 />
               </svg>
             )}
-            <span>Cadastrar com Google</span>
+            <span>Sign up with Google</span>
           </button>
 
           {/* Dark GitHub Button */}
@@ -258,18 +258,18 @@ export default function RegisterPage() {
                 <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
               </svg>
             )}
-            <span>Cadastrar com GitHub</span>
+            <span>Sign up with GitHub</span>
           </button>
         </div>
 
         {/* Footer Navigation */}
         <div className="mt-5 pt-3 border-t border-slate-800/80 text-center text-xs text-slate-400">
-          Já tem uma conta?{' '}
+          Already have an account?{' '}
           <Link
             href="/login"
             className="text-indigo-400 hover:text-indigo-300 font-medium underline-offset-4 hover:underline transition"
           >
-            Fazer login
+            Log in
           </Link>
         </div>
       </div>

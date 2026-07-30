@@ -19,9 +19,9 @@ export function TaskFilters({
   pendingCount,
 }: TaskFiltersProps) {
   const options: { id: FilterStatus; label: string; count: number }[] = [
-    { id: 'all', label: 'Todas', count: totalCount },
-    { id: 'pending', label: 'Pendentes', count: pendingCount },
-    { id: 'completed', label: 'Concluídas', count: completedCount },
+    { id: 'all', label: 'All', count: totalCount },
+    { id: 'pending', label: 'Pending', count: pendingCount },
+    { id: 'completed', label: 'Completed', count: completedCount },
   ]
 
   return (
@@ -30,8 +30,8 @@ export function TaskFilters({
       <div className="flex items-center gap-2 text-sm text-slate-400">
         <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
         <span>
-          <strong className="text-slate-200 font-semibold">{completedCount}</strong> de{' '}
-          <strong className="text-slate-200 font-semibold">{totalCount}</strong> tarefas concluídas
+          <strong className="text-slate-200 font-semibold">{completedCount}</strong> of{' '}
+          <strong className="text-slate-200 font-semibold">{totalCount}</strong> tasks completed
         </span>
       </div>
 
@@ -42,7 +42,7 @@ export function TaskFilters({
           value={currentFilter}
           onChange={(e) => onFilterChange(e.target.value as FilterStatus)}
           className="appearance-none min-h-[38px] pl-4 pr-10 py-1.5 rounded-xl bg-slate-900/80 border border-slate-800/80 text-slate-200 text-xs font-semibold cursor-pointer transition duration-200 hover:border-indigo-500/40 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 focus:border-indigo-500/60"
-          aria-label="Filtrar tarefas"
+          aria-label="Filter tasks"
         >
           {options.map((opt) => (
             <option key={opt.id} value={opt.id} className="bg-slate-900 text-slate-200">

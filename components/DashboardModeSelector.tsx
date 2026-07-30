@@ -9,15 +9,15 @@ interface DashboardModeSelectorProps {
 }
 
 const modes: { id: DashboardMode; label: string; Icon: typeof User }[] = [
-  { id: 'personal', label: 'Minhas Tarefas', Icon: User },
-  { id: 'coop', label: 'Tarefas em Grupo', Icon: Users },
+  { id: 'personal', label: 'My Tasks', Icon: User },
+  { id: 'coop', label: 'Group Tasks', Icon: Users },
 ]
 
 export function DashboardModeSelector({ mode, onModeChange }: DashboardModeSelectorProps) {
   return (
     <div
       role="tablist"
-      aria-label="Modo de visualização"
+      aria-label="View mode"
       className="flex items-center p-1 rounded-2xl bg-slate-900/80 border border-slate-800/80 self-start mb-6 w-full sm:w-auto"
     >
       {modes.map(({ id, label, Icon }) => {

@@ -37,7 +37,7 @@ export function JoinGroupModal({ userId, onGroupJoined, onClose }: JoinGroupModa
         .maybeSingle()
 
       if (findErr || !group) {
-        setError('Código não encontrado. Verifique e tente novamente.')
+        setError('Code not found. Please verify and try again.')
         return
       }
 
@@ -61,7 +61,7 @@ export function JoinGroupModal({ userId, onGroupJoined, onClose }: JoinGroupModa
         .insert({ group_id: group.id, user_id: userId })
 
       if (joinErr) {
-        setError('Não foi possível entrar no grupo. Tente novamente.')
+        setError('Could not join group. Please try again.')
         return
       }
 
@@ -81,7 +81,7 @@ export function JoinGroupModal({ userId, onGroupJoined, onClose }: JoinGroupModa
     code.length > 0 && code.length < 6
       ? null // Still typing, don't show error yet
       : code.length === 6 && !isValidFormat
-        ? 'O código deve conter apenas letras maiúsculas e números.'
+        ? 'Code must contain only uppercase letters and numbers.'
         : null
 
   return (
@@ -96,12 +96,12 @@ export function JoinGroupModal({ userId, onGroupJoined, onClose }: JoinGroupModa
             <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-violet-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-500/20">
               <Hash className="w-4 h-4 text-white" />
             </div>
-            <h2 className="text-lg font-bold text-slate-100">Entrar em um Grupo</h2>
+            <h2 className="text-lg font-bold text-slate-100">Join a Group</h2>
           </div>
           <button
             onClick={onClose}
             className="h-8 w-8 flex items-center justify-center rounded-lg text-slate-500 hover:text-slate-200 hover:bg-slate-800 transition duration-200 cursor-pointer"
-            aria-label="Fechar modal"
+            aria-label="Close modal"
           >
             <X className="w-4 h-4" />
           </button>
@@ -111,14 +111,14 @@ export function JoinGroupModal({ userId, onGroupJoined, onClose }: JoinGroupModa
         <form onSubmit={handleJoin} className="space-y-4">
           <div className="space-y-1.5">
             <label htmlFor="group-code" className="block text-sm font-medium text-slate-300">
-              Código do grupo
+              Group code
             </label>
             <input
               id="group-code"
               type="text"
               value={code}
               onChange={handleCodeChange}
-              placeholder="Ex: AX3K9Z"
+              placeholder="e.g. AX3K9Z"
               maxLength={6}
               required
               autoFocus
@@ -126,7 +126,7 @@ export function JoinGroupModal({ userId, onGroupJoined, onClose }: JoinGroupModa
             />
             {/* Character progress hint */}
             <p className="text-xs text-slate-500">
-              {code.length}/6 caracteres — somente letras maiúsculas e números
+              {code.length}/6 characters — uppercase letters and numbers only
             </p>
           </div>
 
@@ -145,14 +145,14 @@ export function JoinGroupModal({ userId, onGroupJoined, onClose }: JoinGroupModa
               className="w-full min-h-[44px] flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-400 hover:to-indigo-500 text-white text-sm font-semibold shadow-lg shadow-violet-500/20 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-              {loading ? 'Buscando...' : 'Entrar no Grupo'}
+              {loading ? 'Searching...' : 'Join Group'}
             </button>
             <button
               type="button"
               onClick={onClose}
               className="w-full min-h-[44px] rounded-xl text-slate-400 hover:text-slate-200 text-sm font-medium transition duration-200 cursor-pointer focus:outline-none"
             >
-              Cancelar
+              Cancel
             </button>
           </div>
         </form>

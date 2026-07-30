@@ -43,7 +43,7 @@ export function CreateGroupModal({ userId, onGroupCreated, onClose }: CreateGrou
       }
 
       if (!code) {
-        setError('Não foi possível gerar um código único. Tente novamente.')
+        setError('Could not generate a unique code. Please try again.')
         return
       }
 
@@ -55,7 +55,7 @@ export function CreateGroupModal({ userId, onGroupCreated, onClose }: CreateGrou
         .single()
 
       if (groupErr || !group) {
-        setError('Erro ao criar o grupo. Tente novamente.')
+        setError('Error creating group. Please try again.')
         return
       }
 
@@ -65,7 +65,7 @@ export function CreateGroupModal({ userId, onGroupCreated, onClose }: CreateGrou
         .insert({ group_id: group.id, user_id: userId })
 
       if (memberErr) {
-        setError('Grupo criado, mas houve um erro ao adicionar o membro. Tente recarregar.')
+        setError('Group created, but an error occurred adding member. Try reloading.')
         return
       }
 
@@ -87,12 +87,12 @@ export function CreateGroupModal({ userId, onGroupCreated, onClose }: CreateGrou
             <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
               <Users className="w-4.5 h-4.5 text-white" />
             </div>
-            <h2 className="text-lg font-bold text-slate-100">Criar Novo Grupo</h2>
+            <h2 className="text-lg font-bold text-slate-100">Create New Group</h2>
           </div>
           <button
             onClick={onClose}
             className="h-8 w-8 flex items-center justify-center rounded-lg text-slate-500 hover:text-slate-200 hover:bg-slate-800 transition duration-200 cursor-pointer"
-            aria-label="Fechar modal"
+            aria-label="Close modal"
           >
             <X className="w-4 h-4" />
           </button>
@@ -102,14 +102,14 @@ export function CreateGroupModal({ userId, onGroupCreated, onClose }: CreateGrou
         <form onSubmit={handleCreate} className="space-y-4">
           <div className="space-y-1.5">
             <label htmlFor="group-name" className="block text-sm font-medium text-slate-300">
-              Nome do grupo
+              Group name
             </label>
             <input
               id="group-name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Ex: Equipe Dev"
+              placeholder="e.g. Dev Team"
               maxLength={60}
               required
               autoFocus
@@ -132,14 +132,14 @@ export function CreateGroupModal({ userId, onGroupCreated, onClose }: CreateGrou
               className="w-full min-h-[44px] flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-400 hover:to-violet-500 text-white text-sm font-semibold shadow-lg shadow-indigo-500/20 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-              {loading ? 'Criando...' : 'Criar Grupo'}
+              {loading ? 'Creating...' : 'Create Group'}
             </button>
             <button
               type="button"
               onClick={onClose}
               className="w-full min-h-[44px] rounded-xl text-slate-400 hover:text-slate-200 text-sm font-medium transition duration-200 cursor-pointer focus:outline-none"
             >
-              Cancelar
+              Cancel
             </button>
           </div>
         </form>

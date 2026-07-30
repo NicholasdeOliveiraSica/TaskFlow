@@ -3,7 +3,7 @@ import { Database } from './database.types'
 export type TodoRow = Database['public']['Tables']['todos']['Row']
 
 export type PriorityLevel = 'high' | 'medium' | 'low'
-export type CategoryType = 'Trabalho' | 'Pessoal' | 'Estudos' | 'Foco'
+export type CategoryType = 'Work' | 'Personal' | 'Studies' | 'Focus' | 'Trabalho' | 'Pessoal' | 'Estudos' | 'Foco'
 
 export interface Todo {
   id: string

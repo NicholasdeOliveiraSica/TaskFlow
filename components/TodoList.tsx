@@ -110,8 +110,8 @@ export function TodoList({
         const { data, count: countFiltered, error } = await query.range(from, to)
 
         if (error) {
-          console.error('Erro ao carregar tarefas:', error.message)
-          showToast('Erro ao carregar tarefas. Tente novamente.', 'error')
+          console.error('Error loading tasks:', error.message)
+          showToast('Error loading tasks. Please try again.', 'error')
         } else {
           if (data) {
             const fetched = data as Todo[]
@@ -154,7 +154,7 @@ export function TodoList({
       const { data, error } = await query.range(offset, offset + 19)
 
       if (error) {
-        console.error('Erro ao carregar mais tarefas:', error.message)
+        console.error('Error loading more tasks:', error.message)
       } else if (data && data.length > 0) {
         const newBatch = data as Todo[]
         setTodos((prev) => {
@@ -347,11 +347,11 @@ export function TodoList({
     const { error } = await supabase.from('todos').upsert(upsertPayload)
 
     if (error) {
-      console.error('Erro ao reordenar tarefas no DB:', error.message)
-      showToast('Não foi possível salvar a nova ordem no servidor.', 'error')
+      console.error('Error reordering tasks in DB:', error.message)
+      showToast('Could not save new order on server.', 'error')
       await fetchTodos(currentPage, pageSize, filter)
     } else {
-      showToast('Ordem salva com sucesso!', 'success')
+      showToast('Order saved successfully!', 'success')
     }
   }
 
@@ -377,7 +377,7 @@ export function TodoList({
       description,
       is_complete: false,
       priority: priority || 'medium',
-      category: category || 'Pessoal',
+      category: category || 'Personal',
       due_date: due_date || null,
       position: 0,
     }
@@ -395,7 +395,7 @@ export function TodoList({
           description,
           is_complete: false,
           priority: priority || 'medium',
-          category: category || 'Pessoal',
+          category: category || 'Personal',
           due_date: due_date || null,
           position: 0,
         },
@@ -404,13 +404,13 @@ export function TodoList({
       .single()
 
     if (error) {
-      showToast('Não foi possível criar a tarefa. Tente novamente.', 'error')
+      showToast('Could not create task. Please try again.', 'error')
       await fetchTodos(currentPage, pageSize, filter)
       return false
     }
 
     if (data) {
-      showToast('Tarefa criada com sucesso!', 'success')
+      showToast('Task created successfully!', 'success')
       setCurrentPage(1)
       await fetchTodos(1, pageSize, filter)
       return true
@@ -431,7 +431,7 @@ export function TodoList({
       .eq('id', id)
 
     if (error) {
-      showToast('Não foi possível atualizar a tarefa.', 'error')
+      showToast('Could not update task.', 'error')
       await fetchTodos(currentPage, pageSize, filter)
     } else {
       setTodos((prev) =>
@@ -464,13 +464,13 @@ export function TodoList({
         title,
         description,
         priority: priority || 'medium',
-        category: category || 'Pessoal',
+        category: category || 'Personal',
         due_date: due_date || null,
       })
       .eq('id', id)
 
     if (error) {
-      showToast('Não foi possível salvar as alterações da tarefa.', 'error')
+      showToast('Could not save changes to task.', 'error')
       await fetchTodos(currentPage, pageSize, filter)
       return false
     }
@@ -483,13 +483,13 @@ export function TodoList({
             title,
             description,
             priority: priority || 'medium',
-            category: category || 'Pessoal',
+            category: category || 'Personal',
             due_date: due_date || null,
           }
           : t
       )
     )
-    showToast('Tarefa atualizada com sucesso!', 'success')
+    showToast('Task updated successfully!', 'success')
     return true
   }
 
@@ -502,10 +502,10 @@ export function TodoList({
     const { error } = await supabase.from('todos').delete().eq('id', id)
 
     if (error) {
-      showToast('Não foi possível excluir a tarefa.', 'error')
+      showToast('Could not delete task.', 'error')
       await fetchTodos(currentPage, pageSize, filter)
     } else {
-      showToast('Tarefa excluída.', 'success')
+      showToast('Task deleted.', 'success')
       await fetchTodos(currentPage, pageSize, filter)
     }
   }
@@ -573,17 +573,17 @@ export function TodoList({
               </div>
               <h3 className="text-lg font-bold text-slate-200">
                 {filter === 'all'
-                  ? 'Nenhuma tarefa encontrada'
+                  ? 'No tasks found'
                   : filter === 'pending'
-                    ? 'Nenhuma tarefa pendente'
-                    : 'Nenhuma tarefa concluída'}
+                    ? 'No pending tasks'
+                    : 'No completed tasks'}
               </h3>
               <p className="text-sm text-slate-400 mt-1 max-w-sm">
                 {filter === 'all'
-                  ? 'Adicione uma nova tarefa acima para começar a organizar seu dia!'
+                  ? 'Add a new task above to start organizing your day!'
                   : filter === 'pending'
-                    ? 'Parabéns! Todas as suas tarefas foram concluídas.'
-                    : 'Você ainda não concluiu nenhuma tarefa nesta lista.'}
+                    ? 'Congratulations! All your tasks are completed.'
+                    : "You haven't completed any tasks in this list yet."}
               </p>
             </div>
           ) : (
@@ -624,7 +624,7 @@ export function TodoList({
                   {loadingMore ? (
                     <div className="py-4 flex items-center justify-center gap-2 text-xs text-indigo-400 font-medium">
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Carregando mais 20 tarefas...</span>
+                      <span>Loading 20 more tasks...</span>
                     </div>
                   ) : hasMore ? (
                     <button
@@ -632,12 +632,12 @@ export function TodoList({
                       onClick={fetchNextBatch}
                       className="py-2.5 px-5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition cursor-pointer"
                     >
-                      Carregar mais 20 tarefas
+                      Load 20 more tasks
                     </button>
                   ) : (
                     <div className="py-4 flex items-center justify-center gap-1.5 text-xs text-slate-500 font-medium">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
-                      <span>Todas as {filteredCount} tarefas foram carregadas.</span>
+                      <span>All {filteredCount} tasks loaded.</span>
                     </div>
                   )}
                 </div>

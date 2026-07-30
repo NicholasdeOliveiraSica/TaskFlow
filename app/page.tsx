@@ -30,7 +30,7 @@ export default async function DashboardPage() {
 
 
   if (error) {
-    console.error('Erro ao buscar tarefas no Server Component:', error.message)
+    console.error('Error fetching tasks in Server Component:', error.message)
   }
 
   // 2. Count total todos for this user (head: true for 0 bytes payload)
@@ -67,7 +67,7 @@ export default async function DashboardPage() {
 
       {/* Footer */}
       <footer className="relative border-t border-slate-800/80 py-6 text-center text-xs text-slate-500">
-        <p>TaskFlow &copy; {new Date().getFullYear()} — Lista de Tarefas Fullstack com Next.js & Supabase RLS</p>
+        <p>TaskFlow &copy; {new Date().getFullYear()} — Fullstack Task List with Next.js & Supabase RLS</p>
       </footer>
     </div>
   )

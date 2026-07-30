@@ -17,8 +17,8 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://taskflow.nexium.stu
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'TaskFlow | Gerenciador de Tarefas Inteligente',
-  description: 'Aplicação moderna de lista de tarefas com autenticação, filtros e sincronização em tempo real.',
+  title: 'TaskFlow | Intelligent Task Manager',
+  description: 'Modern task manager application with authentication, filters, and real-time synchronization.',
   icons: {
     icon: [
       { url: '/icon.png', type: 'image/png' },
@@ -27,25 +27,25 @@ export const metadata: Metadata = {
     apple: '/apple-icon.png',
   },
   openGraph: {
-    title: 'TaskFlow | Gerenciador de Tarefas Inteligente',
-    description: 'Aplicação moderna de lista de tarefas com autenticação, filtros e sincronização em tempo real.',
+    title: 'TaskFlow | Intelligent Task Manager',
+    description: 'Modern task manager application with authentication, filters, and real-time synchronization.',
     url: siteUrl,
     siteName: 'TaskFlow',
-    locale: 'pt_BR',
+    locale: 'en_US',
     type: 'website',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'TaskFlow - Gerenciador de Tarefas Inteligente',
+        alt: 'TaskFlow - Intelligent Task Manager',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'TaskFlow | Gerenciador de Tarefas Inteligente',
-    description: 'Aplicação moderna de lista de tarefas com autenticação, filtros e sincronização em tempo real.',
+    title: 'TaskFlow | Intelligent Task Manager',
+    description: 'Modern task manager application with authentication, filters, and real-time synchronization.',
     images: ['/og-image.png'],
   },
 }
@@ -57,7 +57,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="pt-BR"
+      lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >

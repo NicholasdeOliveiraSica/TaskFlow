@@ -33,9 +33,9 @@ export function GroupCard({ group, onEnter }: GroupCardProps) {
       <button
         onClick={() => onEnter(group)}
         className="shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl bg-indigo-500/10 hover:bg-gradient-to-r hover:from-indigo-500 hover:to-violet-600 border border-indigo-500/30 hover:border-transparent text-indigo-300 hover:text-white text-sm font-semibold transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        aria-label={`Entrar no grupo ${group.name}`}
+        aria-label={`Enter group ${group.name}`}
       >
-        <span className="hidden sm:inline">Entrar</span>
+        <span className="hidden sm:inline">Enter</span>
         <ArrowRight className="w-4 h-4" />
       </button>
     </div>

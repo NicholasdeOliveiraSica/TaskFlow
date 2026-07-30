@@ -77,7 +77,7 @@ export function CoopView({ userId }: CoopViewProps) {
           className="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 mb-5 transition duration-200 cursor-pointer group"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200" />
-          <span>Voltar aos grupos</span>
+          <span>Back to groups</span>
         </button>
         <CoopTaskList group={activeGroup} userId={userId} />
       </div>
@@ -94,9 +94,9 @@ export function CoopView({ userId }: CoopViewProps) {
             <Users className="w-4 h-4 text-indigo-400" />
           </div>
           <div>
-            <h2 className="text-base font-bold text-slate-100">Meus Grupos</h2>
+            <h2 className="text-base font-bold text-slate-100">My Groups</h2>
             <p className="text-xs text-slate-500">
-              {loadingGroups ? 'Carregando...' : `${userGroups.length} grupo${userGroups.length !== 1 ? 's' : ''}`}
+              {loadingGroups ? 'Loading...' : `${userGroups.length} group${userGroups.length !== 1 ? 's' : ''}`}
             </p>
           </div>
         </div>
@@ -109,14 +109,14 @@ export function CoopView({ userId }: CoopViewProps) {
               className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-800/80 text-slate-400 hover:text-slate-200 text-xs font-semibold transition duration-200 cursor-pointer"
             >
               <Hash className="w-3.5 h-3.5" />
-              <span>Entrar via código</span>
+              <span>Join via code</span>
             </button>
             <button
               onClick={() => setShowCreateModal(true)}
               className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-400 hover:to-violet-500 text-white text-xs font-semibold shadow-lg shadow-indigo-500/20 transition-all duration-200 cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5" />
-              <span>Criar grupo</span>
+              <span>Create group</span>
             </button>
           </div>
         )}
@@ -126,7 +126,7 @@ export function CoopView({ userId }: CoopViewProps) {
       {loadingGroups ? (
         <div className="flex items-center justify-center py-16 gap-3 text-slate-500">
           <Loader2 className="w-5 h-5 animate-spin text-indigo-400" />
-          <span className="text-sm">Buscando seus grupos...</span>
+          <span className="text-sm">Fetching your groups...</span>
         </div>
       ) : userGroups.length === 0 ? (
         /* ── Empty State ── */
@@ -140,10 +140,10 @@ export function CoopView({ userId }: CoopViewProps) {
 
           <div className="p-8 flex flex-col items-center text-center">
             <h3 className="text-lg font-bold text-slate-200 mb-2">
-              Você ainda não faz parte de nenhum grupo
+              You are not part of any group yet
             </h3>
             <p className="text-sm text-slate-400 max-w-sm mb-8">
-              Crie um novo grupo e convide outras pessoas com o código, ou entre em um grupo existente usando o código de 6 caracteres.
+              Create a new group and invite others with the code, or join an existing group using a 6-character code.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-3 w-full max-w-sm">
@@ -152,22 +152,22 @@ export function CoopView({ userId }: CoopViewProps) {
                 className="w-full sm:flex-1 flex items-center justify-center gap-2 min-h-[48px] px-5 rounded-xl bg-gradient-to-r from-indigo-500 to-violet-600 hover:from-indigo-400 hover:to-violet-500 text-white text-sm font-semibold shadow-lg shadow-indigo-500/20 transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <Plus className="w-4 h-4" />
-                Crie seu grupo
+                Create your group
               </button>
 
               <div className="flex items-center gap-3 w-full sm:hidden">
                 <div className="flex-1 h-px bg-slate-800" />
-                <span className="text-xs text-slate-600 font-medium">ou</span>
+                <span className="text-xs text-slate-600 font-medium">or</span>
                 <div className="flex-1 h-px bg-slate-800" />
               </div>
-              <span className="hidden sm:block text-xs text-slate-600 font-medium">ou</span>
+              <span className="hidden sm:block text-xs text-slate-600 font-medium">or</span>
 
               <button
                 onClick={() => setShowJoinModal(true)}
                 className="w-full sm:flex-1 flex items-center justify-center gap-2 min-h-[48px] px-5 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/60 hover:border-indigo-500/30 text-slate-300 hover:text-slate-100 text-sm font-medium transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <Hash className="w-4 h-4" />
-                Entre em um existente
+                Join an existing one
               </button>
             </div>
           </div>

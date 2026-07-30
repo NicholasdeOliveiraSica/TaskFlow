@@ -45,7 +45,7 @@ function LoginContent() {
     const error = searchParams.get('error')
     if (error) {
       if (error === 'auth_callback_failed') {
-        setErrorMsg('Falha no callback de autenticação. Verifique se o provedor OAuth está ativado no Supabase.')
+        setErrorMsg('Authentication callback failed. Verify OAuth provider is enabled in Supabase.')
       } else {
         setErrorMsg(error)
       }
@@ -64,7 +64,7 @@ function LoginContent() {
     setErrorMsg(null)
 
     if (!email.trim() || !password) {
-      setErrorMsg('Por favor, preencha todos os campos.')
+      setErrorMsg('Please fill in all fields.')
       return
     }
 
@@ -78,9 +78,9 @@ function LoginContent() {
 
       if (error) {
         if (error.message.includes('Invalid login credentials')) {
-          setErrorMsg('E-mail ou senha incorretos. Por favor, verifique suas credenciais.')
+          setErrorMsg('Incorrect email or password. Please verify your credentials.')
         } else {
-          setErrorMsg(error.message || 'Erro ao realizar login. Tente novamente.')
+          setErrorMsg(error.message || 'Error logging in. Please try again.')
         }
         setLoading(false)
         return
@@ -89,7 +89,7 @@ function LoginContent() {
       router.push('/')
       router.refresh()
     } catch {
-      setErrorMsg('Ocorreu um erro ao processar sua solicitação. Tente novamente.')
+      setErrorMsg('An error occurred while processing your request. Please try again.')
       setLoading(false)
     }
   }
@@ -103,7 +103,7 @@ function LoginContent() {
     if (cooldown > 0) return
 
     if (!resetEmail.trim()) {
-      setErrorMsg('Por favor, informe seu e-mail.')
+      setErrorMsg('Please enter your email.')
       return
     }
 
@@ -126,20 +126,20 @@ function LoginContent() {
         if (isRateLimit) {
           setCooldownMode('ratelimit')
           setCooldown(60)
-          setErrorMsg('Muitas solicitações enviadas. Aguarde 60 segundos para tentar novamente.')
+          setErrorMsg('Too many requests sent. Please wait 60 seconds before trying again.')
         } else {
-          setErrorMsg(error.message || 'Erro ao solicitar recuperação. Tente novamente.')
+          setErrorMsg(error.message || 'Error requesting password reset. Please try again.')
         }
         setLoading(false)
         return
       }
 
-      setSuccessMsg('Instruções de recuperação enviadas para o seu e-mail!')
+      setSuccessMsg('Password recovery instructions sent to your email!')
       setCooldownMode('success')
       setCooldown(30)
       setLoading(false)
     } catch {
-      setErrorMsg('Ocorreu um erro ao enviar e-mail de recuperação.')
+      setErrorMsg('An error occurred while sending recovery email.')
       setLoading(false)
     }
   }
@@ -160,11 +160,11 @@ function LoginContent() {
       })
 
       if (error) {
-        setErrorMsg(`Erro ao conectar com ${provider}: ${error.message}`)
+        setErrorMsg(`Error connecting to ${provider}: ${error.message}`)
         setSocialLoading(null)
       }
     } catch {
-      setErrorMsg(`Falha ao iniciar autenticação com ${provider}.`)
+      setErrorMsg(`Failed to initiate authentication with ${provider}.`)
       setSocialLoading(null)
     }
   }
@@ -180,7 +180,7 @@ function LoginContent() {
           TaskFlow
         </h1>
         <p className="text-xs text-slate-400 mt-0.5">
-          {mode === 'login' ? 'Entre na sua conta para continuar' : 'Recuperação de Senha'}
+          {mode === 'login' ? 'Log in to your account to continue' : 'Password Recovery'}
         </p>
       </div>
 
@@ -207,7 +207,7 @@ function LoginContent() {
           <form onSubmit={handleEmailLogin} className="space-y-3.5">
             <div>
               <label htmlFor="login-email" className="block text-xs font-medium text-slate-300 mb-1.5">
-                E-mail
+                Email
               </label>
               <input
                 id="login-email"
@@ -215,7 +215,7 @@ function LoginContent() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="seu@email.com"
+                placeholder="your@email.com"
                 className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 min-h-[42px]"
               />
             </div>
@@ -223,7 +223,7 @@ function LoginContent() {
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label htmlFor="login-password" className="block text-xs font-medium text-slate-300">
-                  Senha
+                  Password
                 </label>
                 <button
                   type="button"
@@ -235,7 +235,7 @@ function LoginContent() {
                   }}
                   className="text-xs text-indigo-400 hover:text-indigo-300 font-medium transition underline-offset-4 hover:underline cursor-pointer"
                 >
-                  Esqueceu a senha?
+                  Forgot password?
                 </button>
               </div>
               <input
@@ -257,12 +257,12 @@ function LoginContent() {
               {loading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Entrando...</span>
+                  <span>Logging in...</span>
                 </>
               ) : (
                 <>
                   <LogIn className="w-4 h-4" />
-                  <span>Entrar</span>
+                  <span>Log In</span>
                 </>
               )}
             </button>
@@ -275,7 +275,7 @@ function LoginContent() {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-slate-900 px-3 text-slate-500 font-medium tracking-wider">
-                ou continue com
+                or continue with
               </span>
             </div>
           </div>
@@ -311,7 +311,7 @@ function LoginContent() {
                   />
                 </svg>
               )}
-              <span>Continuar com Google</span>
+              <span>Continue with Google</span>
             </button>
 
             {/* Dark GitHub Button */}
@@ -328,18 +328,18 @@ function LoginContent() {
                   <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
                 </svg>
               )}
-              <span>Continuar com GitHub</span>
+              <span>Continue with GitHub</span>
             </button>
           </div>
 
           {/* Footer Navigation */}
           <div className="mt-6 pt-4 border-t border-slate-800/80 text-center text-xs text-slate-400">
-            Ainda não tem uma conta?{' '}
+            Don&apos;t have an account yet?{' '}
             <Link
               href="/register"
               className="text-indigo-400 hover:text-indigo-300 font-medium underline-offset-4 hover:underline transition"
             >
-              Criar conta
+              Create account
             </Link>
           </div>
         </>
@@ -347,12 +347,12 @@ function LoginContent() {
         /* FORGOT PASSWORD VIEW */
         <form onSubmit={handleResetPassword} className="space-y-4">
           <p className="text-xs text-slate-400 leading-relaxed mb-1">
-            Informe seu e-mail cadastrado para receber um link de redefinição de senha.
+            Enter your registered email address to receive a password reset link.
           </p>
 
           <div>
             <label htmlFor="reset-email" className="block text-xs font-medium text-slate-300 mb-1.5">
-              E-mail
+              Email
             </label>
             <input
               id="reset-email"
@@ -360,7 +360,7 @@ function LoginContent() {
               required
               value={resetEmail}
               onChange={(e) => setResetEmail(e.target.value)}
-              placeholder="seu@email.com"
+              placeholder="your@email.com"
               className="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition duration-200 min-h-[42px]"
             />
           </div>
@@ -373,22 +373,22 @@ function LoginContent() {
             {loading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Enviando...</span>
+                <span>Sending...</span>
               </>
             ) : cooldown > 0 ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin text-indigo-300" />
                 <span>
                   {cooldownMode === 'ratelimit'
-                    ? `Muitas tentativas, aguarde ${cooldown}s`
-                    : `Tente novamente em ${cooldown}s`}
+                    ? `Too many attempts, wait ${cooldown}s`
+                    : `Try again in ${cooldown}s`}
                 </span>
               </>
 
             ) : (
               <>
                 <Mail className="w-4 h-4" />
-                <span>Enviar E-mail de Recuperação</span>
+                <span>Send Recovery Email</span>
               </>
             )}
           </button>
@@ -405,7 +405,7 @@ function LoginContent() {
               className="text-xs text-slate-400 hover:text-slate-200 flex items-center justify-center gap-1.5 mx-auto transition cursor-pointer"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Voltar ao login</span>
+              <span>Back to login</span>
             </button>
           </div>
         </form>
@@ -421,7 +421,7 @@ export default function LoginPage() {
       <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/20 via-slate-950 to-slate-950 pointer-events-none" />
       <Suspense fallback={
         <div className="w-full max-w-md bg-slate-900/80 p-8 rounded-2xl border border-slate-800 text-center text-slate-400">
-          Carregando...
+          Loading...
         </div>
       }>
         <LoginContent />

@@ -19,9 +19,9 @@ export function TodoFilters({
   pendingCount,
 }: TodoFiltersProps) {
   const tabs: { id: FilterStatus; label: string; count: number }[] = [
-    { id: 'all', label: 'Todas', count: totalCount },
-    { id: 'pending', label: 'Pendentes', count: pendingCount },
-    { id: 'completed', label: 'Concluídas', count: completedCount },
+    { id: 'all', label: 'All', count: totalCount },
+    { id: 'pending', label: 'Pending', count: pendingCount },
+    { id: 'completed', label: 'Completed', count: completedCount },
   ]
 
   return (
@@ -30,15 +30,15 @@ export function TodoFilters({
       <div className="flex items-center gap-2 text-sm text-slate-400">
         <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
         <span>
-          <strong className="text-slate-200 font-semibold">{completedCount}</strong> de{' '}
-          <strong className="text-slate-200 font-semibold">{totalCount}</strong> tarefas concluídas
+          <strong className="text-slate-200 font-semibold">{completedCount}</strong> of{' '}
+          <strong className="text-slate-200 font-semibold">{totalCount}</strong> tasks completed
         </span>
       </div>
 
       {/* Tabs */}
       <div
         role="tablist"
-        aria-label="Filtros de tarefas"
+        aria-label="Task filters"
         className="flex items-center p-1 rounded-xl bg-slate-900/80 border border-slate-800/80 self-start sm:self-auto"
       >
         <ListFilter className="w-3.5 h-3.5 text-slate-500 ml-2.5 mr-1 hidden xs:block" />

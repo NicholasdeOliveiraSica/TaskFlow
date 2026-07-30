@@ -20,11 +20,11 @@ export function Navbar({ userEmail }: NavbarProps) {
     setLoggingOut(true)
     try {
       await supabase.auth.signOut()
-      showToast('Sessão encerrada com sucesso.', 'success')
+      showToast('Session closed successfully.', 'success')
       router.push('/login')
       router.refresh()
     } catch {
-      showToast('Erro ao encerrar sessão.', 'error')
+      showToast('Error closing session.', 'error')
       setLoggingOut(false)
     }
   }
@@ -57,14 +57,14 @@ export function Navbar({ userEmail }: NavbarProps) {
             onClick={handleLogout}
             disabled={loggingOut}
             className="min-h-[44px] px-3.5 py-2 rounded-xl bg-slate-800/80 hover:bg-rose-500/10 hover:border-rose-500/30 border border-slate-700/60 text-slate-300 hover:text-rose-300 text-sm font-medium flex items-center gap-2 transition duration-200 cursor-pointer disabled:opacity-50"
-            aria-label="Encerrar sessão"
+            aria-label="Log out"
           >
             {loggingOut ? (
               <Loader2 className="w-4 h-4 animate-spin text-slate-400" />
             ) : (
               <LogOut className="w-4 h-4" />
             )}
-            <span className="hidden xs:inline">Sair</span>
+            <span className="hidden xs:inline">Log out</span>
           </button>
         </div>
       </div>
